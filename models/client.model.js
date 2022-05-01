@@ -23,6 +23,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         email: {
             type: Sequelize.STRING
+        },
+        token: {
+            type: Sequelize.VIRTUAL
         }
     });
     return Client;

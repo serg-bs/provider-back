@@ -1,4 +1,5 @@
 const client = require("../controllers/client.controller");
+const auth = require("../middleware/auth");
 module.exports = app => {
   const client = require("../controllers/client.controller.js");
 
@@ -8,7 +9,7 @@ module.exports = app => {
   router.post("/", client.create);
 
   // Retrieve all Tutorials
-  router.get("/", client.findAll);
+  router.get("/", auth, client.findAll);
 
   // Retrieve all published Tutorials
   router.get("/published", client.findAllPublished);

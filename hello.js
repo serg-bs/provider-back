@@ -10,6 +10,7 @@ require("./routes/account.routes")(app);
 require("./routes/tariff.routes")(app);
 
 db.sequelize.sync();
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => {

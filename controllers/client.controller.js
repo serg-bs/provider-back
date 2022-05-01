@@ -1,9 +1,11 @@
 const db = require("../models");
+const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
 const Client = db.client;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Client
-exports.create = (req, res) => {
+exports.create =  async (req, res) => {
     // Validate request
     if (!req.body.name) {
         res.status(400).send({
@@ -13,13 +15,14 @@ exports.create = (req, res) => {
     }
 
     // Create a Client
+    let password = await bcrypt.hash(req.body.password, 10);
     const client = {
         name: req.body.name,
         surename: req.body.surename,
         middlename: req.body.middlename,
         address: req.body.address,
         login: req.body.login,
-        password: req.body.password,
+        password: password,
         phone: req.body.phone,
         email: req.body.email
     };
@@ -47,8 +50,16 @@ exports.login = (req, res) => {
 
     const login = req.body.login;
     var condition = login ? {login: {[Op.iLike]: `%${login}%`}} : null;
-    Client.findAll({where: condition})
+    Client.findOne({where: condition})
         .then(data => {
+            const token = jwt.sign(
+                {user_id: data.id},
+                process.env.TOKEN_KEY,
+                {
+                    expiresIn: "2h",
+                }
+            );
+            data.token = token;
             res.send(data);
         })
         .catch(err => {
