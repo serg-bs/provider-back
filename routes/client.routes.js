@@ -1,5 +1,6 @@
 const client = require("../controllers/client.controller");
 const auth = require("../middleware/auth");
+const cors = require("cors");
 module.exports = app => {
   const client = require("../controllers/client.controller.js");
 
@@ -27,6 +28,10 @@ module.exports = app => {
   router.delete("/", client.deleteAll);
 
   router.post("/login", client.login);
+
+  app.use(cors({
+    origin: '*'
+  }));
 
   app.use("/api/clients", router);
 };

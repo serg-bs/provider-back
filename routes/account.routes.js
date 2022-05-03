@@ -1,3 +1,4 @@
+const cors = require("cors");
 module.exports = app => {
   const account = require("../controllers/account.controller.js");
 
@@ -23,6 +24,10 @@ module.exports = app => {
 
   // Delete all Tutorials
   router.delete("/", account.deleteAll);
+
+  app.use(cors({
+    origin: '*'
+  }));
 
   app.use("/api/accounts", router);
 };

@@ -1,3 +1,4 @@
+const cors = require("cors");
 module.exports = app => {
   const payment = require("../controllers/payment.controller");
 
@@ -23,6 +24,10 @@ module.exports = app => {
 
   // Delete all Tutorials
   router.delete("/", payment.deleteAll);
+
+  app.use(cors({
+    origin: '*'
+  }));
 
   app.use("/api/payments", router);
 };

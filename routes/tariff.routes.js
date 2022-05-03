@@ -1,3 +1,4 @@
+const cors = require("cors");
 module.exports = app => {
   const tariff = require("../controllers/tariff.controller");
 
@@ -23,6 +24,10 @@ module.exports = app => {
 
   // Delete all Tutorials
   router.delete("/", tariff.deleteAll);
+
+  app.use(cors({
+    origin: '*'
+  }));
 
   app.use("/api/tariffs", router);
 };

@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
@@ -10,6 +11,10 @@ require("./routes/account.routes")(app);
 require("./routes/tariff.routes")(app);
 
 db.sequelize.sync();
+
+app.use(cors({
+    origin: '*'
+}));
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8001;
