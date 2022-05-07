@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
         email: {
             type: Sequelize.STRING
         },
-        token: {
+        access_token: {
             type: Sequelize.VIRTUAL
         }
     });

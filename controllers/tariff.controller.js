@@ -14,7 +14,9 @@ exports.create = (req, res) => {
 
   // Create a Tariff
   const tariff = {
-    name: req.body.name
+    name: req.body.name,
+    speed: req.body.speed,
+    price: req.body.price
   };
 
   // Save Tariff in the database

@@ -59,13 +59,13 @@ exports.login = (req, res) => {
                     expiresIn: "2h",
                 }
             );
-            data.token = token;
+            data.access_token = token;
             res.send(data);
         })
         .catch(err => {
-            res.status(500).send({
+            res.status(401).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "Login or password is wrong."
             });
         });
 }
