@@ -7,9 +7,23 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Client
 exports.create =  async (req, res) => {
     // Validate request
+    var errors = "";
     if (!req.body.name) {
+        errors += "\nИмя не может быть пустым"
+    }
+    if (!req.body.lastname) {
+        errors += "\nФимилия не может быть пустым"
+    }
+    if (!req.body.login) {
+        errors += "\nLogin не может быть пустым"
+    }
+    if (!req.body.password) {
+        errors += "\nPassword не может быть пустым"
+    }
+
+    if (errors != '') {
         res.status(400).send({
-            message: "Content can not be empty!"
+            message: errors
         });
         return;
     }
@@ -53,10 +67,12 @@ exports.login = (req, res) => {
     Client.findOne({where: condition})
         .then(data => {
             const token = jwt.sign(
-                {user_id: data.id},
+                {clientId: data.id,
+                        type: data.type
+                },
                 process.env.TOKEN_KEY,
                 {
-                    expiresIn: "2h",
+                    expiresIn: "20000000h",
                 }
             );
             data.access_token = token;
@@ -89,6 +105,14 @@ exports.findAll = (req, res) => {
 
 // Find a single Client with an id
 exports.findOne = (req, res) => {
+    if(req.type === 'admin' ||
+        (req.type === 'client' && req.clientId !== parseInt(req.params.id))){
+        res.status(401).send({
+            message: `User have no permission to view=${req.clientId}.`
+        });
+        return;
+    }
+
     const id = req.params.id;
 
     Client.findByPk(id)
@@ -176,15 +200,26 @@ exports.deleteAll = (req, res) => {
 };
 
 // find all published Client
-exports.findAllPublished = (req, res) => {
-    Client.findAll({where: {published: true}})
+exports.findByLogin = (req, res) => {
+    if (req.body.login === '') {
+        res.status(200).send({
+            "found": false
+        });
+        return;
+    }
+
+    Client.findAll({where: {login: req.body.login}})
         .then(data => {
-            res.send(data);
+            if(data.length === 0){
+                res.send({"found": false});
+            } else {
+                res.send({"found": true});
+            }
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "Some error occurred while retrieving logins."
             });
         });
 };

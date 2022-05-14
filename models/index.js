@@ -21,5 +21,6 @@ db.sequelize = sequelize;
 db.client = require("./client.model.js")(sequelize, Sequelize);
 db.account = require("./account.model.js")(sequelize, Sequelize);
 db.tariff = require("./tariff.model.js")(sequelize, Sequelize);
+db.payment = require("./payment.model")(sequelize, Sequelize);
 
 module.exports = db;

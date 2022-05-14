@@ -1,10 +1,15 @@
+const db = require("./index");
 module.exports = (sequelize, Sequelize) => {
     const Account = sequelize.define("account", {
-        accountId: {
-            type: Sequelize.STRING
+        tarrifId: {
+            type: Sequelize.INTEGER
         },
         clientId: {
             type: Sequelize.INTEGER
+            // references: {
+            //     model: 'clients',
+            //     key: 'id'
+            // },
         },
         address: {
             type: Sequelize.STRING
@@ -19,5 +24,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DATE
         }
     });
+    // Account.associate = function(models) {
+    //     Account.hasOne(models.client, {foreignKey: 'id',sourceKey: 'clientId'});
+    // }
     return Account;
 };
+

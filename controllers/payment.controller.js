@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Payment
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.name) {
+  if (!req.body.amount) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
@@ -14,7 +14,9 @@ exports.create = (req, res) => {
 
   // Create a Payment
   const payment = {
-    name: req.body.name
+      accountId: req.body.accountId,
+      amount: req.body.amount,
+      payDateTime: new Date()
   };
 
   // Save Payment in the database

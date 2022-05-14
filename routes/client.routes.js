@@ -1,37 +1,40 @@
 const client = require("../controllers/client.controller");
 const auth = require("../middleware/auth");
 const cors = require("cors");
+const config = process.env;
+
 module.exports = app => {
-  const client = require("../controllers/client.controller.js");
+    const client = require("../controllers/client.controller.js");
 
-  var router = require("express").Router();
+    var router = require("express").Router();
 
-  // Create a new Tutorial
-  router.post("/", client.create);
+    // Create a new Client
+    router.post("/", client.create);
 
-  // Retrieve all Tutorials
-  router.get("/", auth, client.findAll);
+    // Retrieve all Clients
+    router.get("/", auth, client.findAll);
 
-  // Retrieve all published Tutorials
-  router.get("/published", client.findAllPublished);
+    // Retrieve all published Clients
+    router.post("/findByLogin", client.findByLogin);
 
-  // Retrieve a single Tutorial with id
-  router.get("/:id", client.findOne);
+    // Retrieve a single Client with id
+    router.get("/:id", auth, client.findOne);
 
-  // Update a Tutorial with id
-  router.put("/:id", client.update);
+    // Update a Client with id
+    router.put("/:id", auth, client.update);
 
-  // Delete a Tutorial with id
-  router.delete("/:id", client.delete);
+    // Delete a Client with id
+    router.delete("/:id", auth, client.delete);
 
-  // Delete all Tutorials
-  router.delete("/", client.deleteAll);
+    // Delete all Clients
+    router.delete("/", auth, client.deleteAll);
 
-  router.post("/login", client.login);
+    router.post("/login", client.login);
+    if (config.CORS_ENABLES !== 'true') {
+        app.use(cors({
+            origin: '*'
+        }));
+    }
 
-  app.use(cors({
-    origin: '*'
-  }));
-
-  app.use("/api/clients", router);
+    app.use("/api/clients", router);
 };

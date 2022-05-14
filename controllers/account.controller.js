@@ -1,11 +1,12 @@
 const db = require("../models");
 const Account = db.account;
+const Client = db.client;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Account
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.accountId) {
+  if (!req.body.tarrifId) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
@@ -14,7 +15,11 @@ exports.create = (req, res) => {
 
   // Create Account
   const account = {
-    accountId: req.body.accountId
+      tarrifId: req.body.tarrifId,
+      clientId: req.body.clientId,
+      address: req.body.address,
+      status: req.body.status,
+      balance: req.body.balance
   };
 
   // Save Account in the database
@@ -32,8 +37,8 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-  const accountId = req.query.accountId;
-  var condition = accountId ? { accountId: { [Op.iLike]: `%${accountId}%` } } : null;
+  const clientId = req.query.clientId;
+  var condition = clientId ? { clientId: { [Op.eq]: `${clientId}` } } : null;
 
   Account.findAll({ where: condition })
       .then(data => {
