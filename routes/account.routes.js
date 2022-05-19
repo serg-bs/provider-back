@@ -1,28 +1,26 @@
 const cors = require("cors");
+const auth = require("../middleware/auth");
 module.exports = app => {
   const account = require("../controllers/account.controller.js");
 
   var router = require("express").Router();
 
-  // Create a new Tutorial
+  // Create a new Account
   router.post("/", account.create);
 
-  // Retrieve all Tutorials
-  router.get("/", account.findAll);
+  // Retrieve account by ClientId
+  router.get("/", auth, account.findByClientId);
 
-  // Retrieve all published Tutorials
-  router.get("/published", account.findAllPublished);
-
-  // Retrieve a single Tutorial with id
+  // Retrieve a single Account with id
   router.get("/:id", account.findOne);
 
-  // Update a Tutorial with id
+  // Update a Account with id
   router.put("/:id", account.update);
 
-  // Delete a Tutorial with id
+  // Delete a Account with id
   router.delete("/:id", account.delete);
 
-  // Delete all Tutorials
+  // Delete all Accounts
   router.delete("/", account.deleteAll);
 
   app.use(cors({

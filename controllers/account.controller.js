@@ -1,12 +1,11 @@
 const db = require("../models");
 const Account = db.account;
-const Client = db.client;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Account
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.tarrifId) {
+  if (!req.body.tariffId) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
@@ -15,7 +14,7 @@ exports.create = (req, res) => {
 
   // Create Account
   const account = {
-      tarrifId: req.body.tarrifId,
+      tariffId: req.body.tariffId,
       clientId: req.body.clientId,
       address: req.body.address,
       status: req.body.status,
@@ -36,11 +35,12 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Tutorials from the database.
-exports.findAll = (req, res) => {
+exports.findByClientId = (req, res) => {
   const clientId = req.query.clientId;
+
   var condition = clientId ? { clientId: { [Op.eq]: `${clientId}` } } : null;
 
-  Account.findAll({ where: condition })
+  Account.findOne({ where: condition })
       .then(data => {
         res.send(data);
       })
@@ -75,6 +75,9 @@ exports.findOne = (req, res) => {
 
 // Update a Account by the id in the request
 exports.update = (req, res) => {
+  // req.clientId
+
+
   const id = req.params.id;
 
   Account.update(req.body, {

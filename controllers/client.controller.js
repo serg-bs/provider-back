@@ -11,8 +11,8 @@ exports.create =  async (req, res) => {
     if (!req.body.name) {
         errors += "\nИмя не может быть пустым"
     }
-    if (!req.body.lastname) {
-        errors += "\nФимилия не может быть пустым"
+    if (!req.body.surename) {
+        errors += "\nФамилия не может быть пустой"
     }
     if (!req.body.login) {
         errors += "\nLogin не может быть пустым"

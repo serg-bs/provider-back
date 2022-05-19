@@ -34,8 +34,8 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-  const name = req.query.name;
-  var condition = name ? { name: { [Op.iLike]: `%${name}%` } } : null;
+  const accountId = req.query.accountId;
+  const condition = accountId ? { accountId: { [Op.eq]: `${accountId}` } } : null;
 
   Payment.findAll({ where: condition })
       .then(data => {

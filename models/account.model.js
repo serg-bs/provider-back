@@ -1,7 +1,7 @@
 const db = require("./index");
 module.exports = (sequelize, Sequelize) => {
     const Account = sequelize.define("account", {
-        tarrifId: {
+        tariffId: {
             type: Sequelize.INTEGER
         },
         clientId: {
