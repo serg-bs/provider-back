@@ -9,16 +9,16 @@ exports.create =  async (req, res) => {
     // Validate request
     var errors = "";
     if (!req.body.name) {
-        errors += "\nИмя не может быть пустым"
+        errors += "Имя не может быть пустым."
     }
     if (!req.body.surename) {
-        errors += "\nФамилия не может быть пустой"
+        errors += "Фамилия не может быть пустой."
     }
     if (!req.body.login) {
-        errors += "\nLogin не может быть пустым"
+        errors += "Login не может быть пустым."
     }
     if (!req.body.password) {
-        errors += "\nPassword не может быть пустым"
+        errors += "Password не может быть пустым."
     }
 
     if (errors != '') {
@@ -38,7 +38,8 @@ exports.create =  async (req, res) => {
         login: req.body.login,
         password: password,
         phone: req.body.phone,
-        email: req.body.email
+        email: req.body.email,
+        type: 'client'
     };
 
     // Save Client in the database
@@ -135,6 +136,30 @@ exports.findOne = (req, res) => {
 // Update a Client by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
+    // Validate request
+    var errors = "";
+    if (!req.body.name) {
+        errors += "Имя не может быть пустым."
+    }
+    if (!req.body.surename) {
+        errors += "Фамилия не может быть пустой."
+    }
+    if (!req.body.login) {
+        errors += "Login не может быть пустым."
+    }
+    if (!req.body.phone) {
+        errors += "Телефон не может быть пустым."
+    }
+    if (!req.body.email) {
+        errors += "Email не может быть пустым."
+    }
+
+    if (errors != '') {
+        res.status(400).send({
+            message: errors
+        });
+        return;
+    }
 
     Client.update(req.body, {
         where: {id: id}
@@ -146,7 +171,7 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
+                    message: `Cannot update Client with id=${id}. Maybe Client was not found or req.body is empty!`
                 });
             }
         })

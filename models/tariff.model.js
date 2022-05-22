@@ -9,6 +9,9 @@ module.exports = (sequelize, Sequelize) => {
         price: {
             type: Sequelize.FLOAT
         }
+        // default: {
+        //     type: Sequelize.BOOL
+        // }
     });
     return Tariff;
 };
