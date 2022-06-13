@@ -5,6 +5,7 @@ const app = express();
 app.use(express.json());
 
 const db = require("./models");
+db.sequelize.sync();
 // db.client.sync()
 // db.client.belongsTo(db.account, {as: 'clientId'});
 
@@ -14,7 +15,7 @@ require("./routes/account.routes")(app);
 require("./routes/tariff.routes")(app);
 require("./routes/payment.routes")(app);
 
-db.sequelize.sync();
+
 
 app.use(cors({
     origin: '*'

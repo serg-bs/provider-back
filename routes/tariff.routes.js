@@ -1,28 +1,29 @@
 const cors = require("cors");
+const auth = require("../middleware/auth");
 module.exports = app => {
   const tariff = require("../controllers/tariff.controller");
 
   var router = require("express").Router();
 
-  // Create a new Tutorial
+  // Create a new Tariff
   router.post("/", tariff.create);
 
-  // Retrieve all Tutorials
-  router.get("/", tariff.findAll);
+  // Retrieve all Tariffs
+  router.get("/", auth, tariff.findAll);
 
-  // Retrieve all published Tutorials
+  // Retrieve all published Tariffs
   router.get("/published", tariff.findAllPublished);
 
-  // Retrieve a single Tutorial with id
+  // Retrieve a single Tariff with id
   router.get("/:id", tariff.findOne);
 
-  // Update a Tutorial with id
+  // Update a Tariff with id
   router.put("/:id", tariff.update);
 
-  // Delete a Tutorial with id
+  // Delete a Tariff with id
   router.delete("/:id", tariff.delete);
 
-  // Delete all Tutorials
+  // Delete all Tariffs
   router.delete("/", tariff.deleteAll);
 
   app.use(cors({

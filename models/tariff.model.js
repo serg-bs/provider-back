@@ -8,10 +8,11 @@ module.exports = (sequelize, Sequelize) => {
         },
         price: {
             type: Sequelize.FLOAT
+        },
+        disabled: {
+            type: Sequelize.BOOLEAN,
+            default: false
         }
-        // default: {
-        //     type: Sequelize.BOOL
-        // }
     });
     return Tariff;
 };
