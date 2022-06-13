@@ -20,6 +20,12 @@ exports.create =  async (req, res) => {
     if (!req.body.password) {
         errors += "Password не может быть пустым."
     }
+    if (!req.body.phone) {
+        errors += "Телефон не может быть пустым."
+    }
+    if (!req.body.email) {
+        errors += "Email не может быть пустым."
+    }
 
     if (errors != '') {
         res.status(400).send({
@@ -106,7 +112,7 @@ exports.findAll = (req, res) => {
 
 // Find a single Client with an id
 exports.findOne = (req, res) => {
-    if(req.type === 'admin' ||
+    if(req.type !== 'admin' &&
         (req.type === 'client' && req.clientId !== parseInt(req.params.id))){
         res.status(401).send({
             message: `User have no permission to view=${req.clientId}.`

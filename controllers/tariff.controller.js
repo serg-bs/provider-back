@@ -34,8 +34,9 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-  const name = req.query.name;
-  var condition = name ? { name: { [Op.iLike]: `%${name}%` } } : null;
+  // const name = req.query.name;
+  // var condition = name ? { name: { [Op.iLike]: `%${name}%` } } : null;
+  const condition = req.type === 'client' ? { disabled: { [Op.eq]: `${false}` } } : null;
 
   Tariff.findAll({ where: condition })
       .then(data => {
@@ -52,7 +53,6 @@ exports.findAll = (req, res) => {
 // Find a single Tariff with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
-
   Tariff.findByPk(id)
       .then(data => {
         if (data) {

@@ -36,7 +36,7 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findByClientId = (req, res) => {
-  const clientId = req.query.clientId;
+  const clientId = req.clientId;
 
   var condition = clientId ? { clientId: { [Op.eq]: `${clientId}` } } : null;
 
